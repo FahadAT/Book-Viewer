@@ -1,0 +1,266 @@
+*{
+    color: #444;
+}
+body{
+   margin: 0px;
+    /* position: relative; */
+    background-color: #f8f4f9;
+}
+.Lhead{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.699),rgba(0, 0, 0, 0.699)) ,url(imgs/dariusz-sankowski-3OiYMgDKJ6k-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+p{
+    color: #444;
+}
+
+/*                                                         NAV BAR                                                          */
+.Home-nav{
+    background-color: #6b4b3e;
+    padding: 40px;
+
+}
+.Home-nav ul{
+    position: relative;
+    float: right;
+    bottom: 10px;
+    right: 120px;
+   
+}
+.Home-nav ul li {
+    margin-right: 20px;
+    display: inline-block;
+}
+.Home-nav ul li a{
+    color: #f8f4f9;
+    text-decoration: none;
+    margin-right: 20px;
+    padding: 8px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 90% ;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s;
+    font-size: 16px;
+
+}
+.Home-nav li a:hover  ,
+.Home-nav li a:active {
+    border-bottom: 2px solid #f8f4f9;
+
+}
+/*                                                         NAV BAR                                                          */
+
+
+/*                                                         HEADER TEXT                                                         */
+.center{
+    position: absolute;
+    width: 1140px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    text-align: center;
+}
+.center h1{
+    color: #f8f4f9;
+    font-size: 50px;
+
+}
+
+/*                                                         HEADER TEXT                                                         */
+
+/*                                                         HEADER btn                                                         */
+.btn-header{
+    margin-top: 10px;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px 20px;
+    border: 1px solid #6b4b3e;
+    border-radius: 200px;
+    text-decoration: none;
+    color: #f8f4f9;
+    background-color: #6b4b3e;
+    transition: background-color 0.2s, border 0.2s, color 0.2s;
+}
+.btn-header:hover{
+    background-color: #c49e85;
+    color: #6b4b3e;
+}
+
+/*                                                         HEADER btn                                                         */
+
+/*                                                         ad Section                                                         */
+.ad{
+    top: 50px;
+    position: relative;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    
+}
+section h1{
+    top: 40px;
+}
+section p {
+    text-align: center;
+    
+}
+.ad{
+    
+border-bottom: 9px solid #6b4b3e ;
+
+    
+}
+
+.header_section{
+    
+    text-align: center;
+    color:#6b4b3e;
+}
+.header_section1{
+    margin-top: 100px;
+    text-align: center;
+    color:#6b4b3e;
+    margin-bottom: 40px;
+}
+.ad-row {
+    max-width: 1140px;
+     margin: 0 auto;       /*  thats how to center the page */
+     top: 70px ; 
+}
+.ad-row p{
+    padding-bottom: 60px;
+    padding-right: 20px;
+    
+}
+/* .gap100{
+    padding: 70px 0;
+} */
+.icon_big{
+    font-size: 50px;
+    color:#6b4b3e;
+    
+}
+
+/*                                                         ad Section                                                         */
+
+.ab{
+    
+    position: relative;
+    padding-bottom: 125px;
+    padding-top: 50px;
+    border-bottom: 9px solid #6b4b3e;
+}
+
+
+  
+  .price {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
+  
+  /* Add shadows on hover */
+  .price:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+  }
+  
+  /* Pricing header */
+  .price .header {
+    background-color: #6b4b3e;
+    color: white;
+    font-size: 25px;
+  }
+  
+  /* List items */
+  .price li {
+    border-bottom: 1px solid #c49e85;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Grey list item */
+  .price .grey {
+    background-color: #c49e85;
+    font-size: 20px;
+  }
+  
+  /* The "Sign Up" button */
+  .button {
+    background-color: #6b4b3e;
+    border: none;
+    color: #f8f4f9;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .button:hover{
+    background-color: #f8f4f9;;
+    color: #6b4b3e;
+  }
+  footer {
+    background-color: #333;
+    padding: 50px;
+    font-size: 80%;
+}
+
+.footer-nav {
+    list-style: none;
+    float: left;
+}
+
+.social-links {
+    list-style: none;
+    float: right;
+}
+
+.footer-nav li,
+.social-links li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.footer-nav li:last-child,
+.social-links li:last-child {
+    margin-right: 0;
+}
+
+.footer-nav li a,
+
+.social-links li a:visited {
+    text-decoration: none;
+    border: 0;
+    color: #888;
+    -webkit-transition: color 0.2s;
+    transition: color 0.2s;
+}
+
+.footer-nav li a:hover,
+.footer-nav li a:active {
+    color: #ddd;
+}
+
+.social-links li a:link,
+.social-links li a:visited {
+    font-size: 160%;
+}
+
+
+
+
+
+footer p {
+    color: #888;
+    text-align: center;
+    margin-top: 20px;
+}
+
+i{
+     color: #888;;
+}

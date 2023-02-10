@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="HomePage.css">
+    <title>Book Viewer</title>
+  </head>
+  <body>
+    <header>
+      <nav class="Home-nav">
+        <ul>
+            <li><a class="nav-btn" href="localhost:3000/home">Homepage</a></li>
+            <li><a class="nav-btn" href="#">Books</a></li>
+            <li><a class="nav-btn" href="#about-us">About us</a></li>
+            <li><a class="nav-btn" href="#">Contact us</a></li>
+        </ul>
+    </nav>
+    </header>
+    <div class="container">
+      <div class="card " onclick="showPopup(event)">
+        <img src="book2.jpg" alt="Book 1">
+        <h2>Book 1</h2>
+        <p>Author: John Doe</p>
+        <p>Publisher: XYZ Press</p>
+      </div>
+      <div class="card" onclick="showPopup(event)">
+        <img src="book2.jpg" alt="Book 2">
+        <h2>Book 2</h2>
+        <p>Author: Jane Smith</p>
+        <p>Publisher: ABC Books</p>
+      </div>
+    </div>
+    <script src="/script.js"></script>
+  </body>
+</html>

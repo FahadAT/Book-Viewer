@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="/log.css">
+</head>
+<body>
+    <section class="login">
+        <div class="titulo">Sign Up</div>
+        <form action="/SignUp" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="text" name="FirstName" required title="FrstName required" placeholder="Frist name" data-icon="U">
+            <input type="text" name="LastName" required title="LastName required" placeholder="Last name" data-icon="U">
+            <input type="email" name="email" required title="Email required" placeholder="email" data-icon="U">
+            <input type="text" name="username" required title="Username required" placeholder="Username" data-icon="U">
+            <input type="password" name="password" required title="Password required" placeholder="Password" data-icon="x">
+            <div class="olvido">
+                <div class="col"><a href="login" title="Ver Carásteres">Log In</a></div>
+            </div>
+            <input type="submit" >
+        </form>
+    </section>
+</body>
+</html>
