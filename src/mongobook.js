@@ -25,8 +25,11 @@ const Books = new mongoose.Schema({
     description:{
         type: String,
         required: true,
+    },
+    picture:{
+        type: String,
     }
-
+    
 });
 const Bookcol=new mongoose.model("Collection2", Books)
 

@@ -9,7 +9,7 @@
     <header>
       <nav class="Home-nav">
         <ul>
-            <li><a class="nav-btn" href="localhost:3000/home">Homepage</a></li>
+            <li><a class="nav-btn" href="/">Homepage</a></li>
             <li><a class="nav-btn" href="#">Books</a></li>
             <li><a class="nav-btn" href="#about-us">About us</a></li>
             <li><a class="nav-btn" href="#">Contact us</a></li>
@@ -17,19 +17,68 @@
     </nav>
     </header>
     <div class="container">
-      <div class="card " onclick="showPopup(event)">
-        <img src="book2.jpg" alt="Book 1">
-        <h2>Book 1</h2>
-        <p>Author: John Doe</p>
-        <p>Publisher: XYZ Press</p>
-      </div>
-      <div class="card" onclick="showPopup(event)">
-        <img src="book2.jpg" alt="Book 2">
-        <h2>Book 2</h2>
-        <p>Author: Jane Smith</p>
-        <p>Publisher: ABC Books</p>
+      <% books.forEach(book => { %>
+        <div class="card" onclick="showPopup('<%= book.title %>')">
+          <img src="<%= book.picture %>" alt="<%= book.title %>">
+          <h2><%= book.title %></h2>
+          <p>Author: <%= book.author %></p>
+          <p>Publisher: <%= book.publisher %></p>
+        </div>
+      <% }); %>
+      <% if (isAdmin) { %>
+        <a href="/add" class="btn btn-primary">Add Book</a>
+      <% } %>
+    </div>
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 id="popupTitle"></h2>
+        <p id="popupDescription"></p>
       </div>
     </div>
-    <script src="/script.js"></script>
+
+    <footer>
+      <div class="container2">
+          <div class="row">
+              <div class="col">
+                  <ul class="footer-nav">
+                      <li><a href="#">Contact us</a></li>
+                      <li><a href="#">Press</a></li>
+                      <li><a href="#">iOS App</a></li>
+                      <li><a href="#">Android App</a></li>
+                  </ul>
+              </div>
+              <div class="col">
+                  <ul class="social-links">
+                      <li><a href="#"><i class="bi bi-twitter"></i></i></a></li>
+                      <li><a href="#"><i class="bi bi-facebook"></i></i></a></li>
+                      <li><a href="#"><i class="bi bi-instagram"></i></i></a></li>
+                      <li><a href="#"><i class="bi bi-whatsapp"></i></i></a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </footer>
+  <script>
+  let selectedBook;
+  function showPopup(title) {
+    books.forEach(book => {
+      if (book.title === title) {
+        selectedBook = book;
+      }
+    });
+    const popup = document.getElementById("popup");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupDescription = document.getElementById("popupDescription");
+    popupTitle.innerHTML = selectedBook.title;
+    popupDescription.innerHTML = selectedBook.description;
+    popup.style.display = "block";
+  }
+
+  function closePopup() {
+    const popup = document.getElementById("popup");
+    popup.style.display = "none";
+  }
+  </script>
   </body>
 </html>

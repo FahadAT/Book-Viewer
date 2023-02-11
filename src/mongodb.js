@@ -36,22 +36,7 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     }
 });
-const Books = new mongoose.Schema({
-    Author:{
-        type: String,
-        required: true,
-    },
-    BookName:{
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
 
-});
 const collection=new mongoose.model("Collection1", userSchema)
 
 module.exports=collection;

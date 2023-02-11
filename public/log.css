@@ -89,12 +89,12 @@ body {
     background: white url(http://dev.dhenriquez.com/test-img/icons/54-lock.png) 10px center no-repeat;
 }
 
-.login form .enviar {
+.login form input[type=submit] {
     width: 240px;
     height: 12px;
     display: block;
     padding-top: 14px;
-    padding-bottom: 14px;
+    padding-bottom: 28px;
     border-radius: 6px;
     border: none;
     border-top: #161616 1px solid;
@@ -108,6 +108,12 @@ body {
     font-weight: bold;
     color: #FFF;
     font-family: Arial;
+
+}
+.login form input[type=submit]:hover {
+
+    cursor: pointer;
+    
 }
 
 .login .olvido {
