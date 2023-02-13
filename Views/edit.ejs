@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Books</title>
+    <link rel="stylesheet" href="/Style/log.css">
+</head>
+<body>
+    <section class="login">
+    <form action="/update" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="id" value="<%=book.id%>">
+        <input type="text"  name="title" required title="title required" placeholder="title" data-icon="U" value="<%=book.title%>">
+        <input type="text"  name="author" required title="author required" placeholder="author" data-icon="U" value="<%=book.author%>">
+        <input type="text"  name="publisher" required title="publisher required" placeholder="publisher" data-icon="U" value="<%=book.publisher%>">
+        <input type="text"  name="description" required title="description required" placeholder="description" data-icon="U"value="<%=book.description%>">
+        <input type="text"  name="image"  placeholder="Image" data-icon="x" value="< %=book.image% >">
+        <input type="submit" class="enivar" >
+    </form>
+</section>
+</body>
+</html>
