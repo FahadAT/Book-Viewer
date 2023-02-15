@@ -25,6 +25,7 @@
           <p>Publisher: <%= book.publisher %></p>
           <p><a href="<%='/view/' + book.id %>" class="btn btn-edit">view</a></p>
           <% if (isAdmin) { %>
+            <p>Created By: <%= book.createdby%></p>
             <a href="<%='/update/' + book.id %>" class="btn btn-edit">Edit</a>
             <a href="<%='/delete/' + book.id %>" class="btn btn-edit">Delete</a>
           <% } %>

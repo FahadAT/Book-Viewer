@@ -52,7 +52,8 @@ app.post("/add",upload.single('image'), async (req, res) => {
         author: req.body.author,
         publisher: req.body.publisher,
         description: req.body.description,
-        image: req.file.filename
+        image: req.file.filename,
+        createdby: req.session.user.username
     }
     await Bookcol.insertMany([binfo])
     console.log(req.file.filename)
