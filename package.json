@@ -16,9 +16,11 @@
   "main": "script.js",
   "directories": {
     "test": "test"
+    
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon script.js"
   },
   "author": "",
   "license": "ISC",

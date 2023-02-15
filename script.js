@@ -26,6 +26,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+app.use('/public/', express.static('./public'));  // to load images
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'images')));
 app.use(express.json())
@@ -44,6 +45,7 @@ app.get("/", (req, res) => {
 )
 app.get("/add", (req, res) => {
     res.render("add")
+    res.redirect('/books')
 })
 app.post("/add",upload.single('image'), async (req, res) => {
     const binfo = {
