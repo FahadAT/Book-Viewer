@@ -36,6 +36,6 @@ const Books = new mongoose.Schema({
     }
     
 });
-const Bookcol=new mongoose.model("Collection2", Books)
+const Bookcol=new mongoose.model("Books", Books)
 
 module.exports=Bookcol;
