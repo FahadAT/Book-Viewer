@@ -19,7 +19,7 @@
     <div class="container">
       <% books.forEach(book => { %>
         <div class="card">
-          <img src="<%= book.picture %>" alt="<%= book.title %>">
+          <img src="<%= '/' + book.image %>" alt="<%= book.title %>">
           <h2><%= book.title %></h2>
           <p>Author: <%= book.author %></p>
           <p>Publisher: <%= book.publisher %></p>

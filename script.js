@@ -4,9 +4,22 @@ const app = express()
 const path = require("path");
 const collection = require("./src/mongodb")
 const Bookcol = require("./src/mongobook")
+const multer  = require('multer')
 const session = require('express-session');
 const { check, validationResult } = require('express-validator/check')
 
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'images')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix + '.png')
+    }
+  })
+  
+  const upload = multer({ storage: storage })
 app.use(session({
     secret: 'secret',
     resave: false,
@@ -14,6 +27,7 @@ app.use(session({
     cookie: { secure: false }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'images')));
 app.use(express.json())
 app.set('views', path.join(__dirname, './views'))
 app.set("view engine", "ejs")
@@ -31,15 +45,17 @@ app.get("/", (req, res) => {
 app.get("/add", (req, res) => {
     res.render("add")
 })
-app.post("/add", async (req, res) => {
+app.post("/add",upload.single('image'), async (req, res) => {
     const binfo = {
         title: req.body.title,
         author: req.body.author,
         publisher: req.body.publisher,
         description: req.body.description,
-        image: req.body.image
+        image: req.file.filename
     }
     await Bookcol.insertMany([binfo])
+    console.log(req.file.filename)
+    res.redirect('/books')
 })
 app.get("/books", (req, res) => {
     // Find all the books in the database
