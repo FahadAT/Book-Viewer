@@ -13,6 +13,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+app.use('/public/', express.static('./public'));  // to load images
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 app.set('views', path.join(__dirname, './views'))
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 )
 app.get("/add", (req, res) => {
     res.render("add")
+    res.redirect('/books')
 })
 app.post("/add", async (req, res) => {
     const binfo = {
@@ -40,6 +42,7 @@ app.post("/add", async (req, res) => {
         image: req.body.image
     }
     await Bookcol.insertMany([binfo])
+    res.redirect('/books')
 })
 app.get("/books", (req, res) => {
     // Find all the books in the database

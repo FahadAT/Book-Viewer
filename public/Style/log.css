@@ -27,7 +27,7 @@ body {
     margin-bottom: 30px;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
-    font-family: Arial;
+    
 }
 
 .login form {
@@ -107,13 +107,17 @@ body {
     font-size: 12px;
     font-weight: bold;
     color: #FFF;
-    font-family: Arial;
+    
 
 }
 .login form input[type=submit]:hover {
 
     cursor: pointer;
     
+}
+.login{
+    position: relative;
+    top: 90px;
 }
 
 .login .olvido {
@@ -135,5 +139,5 @@ body {
 .login .olvido .col a {
     color: #fff;
     text-decoration: underline;
-    font: 12px Arial;
+    
 }
