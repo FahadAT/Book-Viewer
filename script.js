@@ -45,7 +45,6 @@ app.get("/", (req, res) => {
 )
 app.get("/add", (req, res) => {
     res.render("add")
-    res.redirect('/books')
 })
 app.post("/add",upload.single('image'), async (req, res) => {
     const binfo = {
