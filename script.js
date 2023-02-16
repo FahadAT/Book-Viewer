@@ -7,7 +7,7 @@ const Bookcol = require("./src/mongobook")
 const multer  = require('multer')
 const session = require('express-session');
 const { check, validationResult } = require('express-validator/check')
-
+const upload = multer({ storage: storage })
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
     }
   })
   
-  const upload = multer({ storage: storage })
 app.use(session({
     secret: 'secret',
     resave: false,
@@ -61,19 +60,43 @@ app.post("/add",upload.single('image'), async (req, res) => {
     res.redirect('/books')
 })
 app.get("/books", (req, res) => {
+    // Get the filter query parameter (if any)
+    const filterType = req.query.filterType;
+    const filterValue = req.query.filterValue;
+  
     // Find all the books in the database
     Bookcol.find({}, (err, books) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Error retrieving books");
-        } else {
-            // Check the user's role
-            const isAdmin = req.session.user && req.session.user.role === "admin";
-            // Render the books page and pass the books data and isAdmin flag
-            res.render("Books", { books: books, isAdmin: isAdmin });
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error retrieving books");
+      } else {
+        // Check the user's role
+        const isAdmin = req.session.user && req.session.user.role === "admin";
+  
+        // Filter the books by the selected filter type and value
+        let filteredBooks = books;
+        if (filterType && filterValue) {
+          if (filterType === "publisher") {
+            filteredBooks = filteredBooks.filter((book) => book.publisher === filterValue);
+          } else if (filterType === "author") {
+            filteredBooks = filteredBooks.filter((book) => book.author === filterValue);
+          }
         }
+  
+        // Render the books page and pass the books data, isAdmin flag, and filter values
+        if(req.session.user){
+        res.render("Books", {
+          books: filteredBooks,
+          isAdmin: isAdmin,
+          filterType: filterType,
+          filterValue: filterValue,
+        });
+        }
+    else{
+        res.redirect('/login')
+    }}
     });
-});
+  });
 app.post("/login", async (req, res) => {
     try {
         const check = await collection.findOne({ username: req.body.username })
@@ -104,13 +127,7 @@ app.get("/update/:id", (req, res) => {
     });
 });
 
-app.post("/update", [
-    check('title').isLength({ min: 5 }).withMessage('Title should be more than 5 char'),
-    check('description').isLength({ min: 5 }).withMessage('Description should be more than 5 char'),
-    check('location').isLength({ min: 3 }).withMessage('Location should be more than 5 char'),
-    check('date').isLength({ min: 5 }).withMessage('Date should valid Date'),
-
-], (req, res) => {
+app.post("/update",upload.single('image'), (req, res) => {
 
 
     let query = { _id: req.body.id }
@@ -119,7 +136,7 @@ app.post("/update", [
         author: req.body.author,
         publisher: req.body.publisher,
         description: req.body.description,
-        image: req.body.image
+        image: req.file.filename
     }
     Bookcol.updateOne(query, binfo, (err) => {
         if (err) return console.error(err);
