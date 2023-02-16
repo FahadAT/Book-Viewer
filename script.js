@@ -4,7 +4,7 @@ const app = express()
 const path = require("path");
 const Usercol = require("./src/mongodb")
 const Bookcol = require("./src/mongobook")
-const multer  = require('multer')
+const multer = require('multer')
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
@@ -12,14 +12,14 @@ const flash = require('connect-flash');
 app.use(flash());
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'images')
+        cb(null, 'images')
     },
     filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, file.fieldname + '-' + uniqueSuffix + '.png')
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname + '-' + uniqueSuffix + '.png')
     }
-  })
-  
+})
+
 const upload = multer({ storage: storage })
 app.use(session({
     secret: 'secret',
@@ -46,9 +46,9 @@ app.get("/", (req, res) => {
 )
 app.get("/add", (req, res) => {
     res.render("add")
-    
+
 })
-app.post("/add",upload.single('image'), async (req, res) => {
+app.post("/add", upload.single('image'), async (req, res) => {
     const binfo = {
         title: req.body.title,
         author: req.body.author,
@@ -61,56 +61,57 @@ app.post("/add",upload.single('image'), async (req, res) => {
     console.log(req.file.filename)
     res.redirect('/books')
 })
-app.get("/users",(req,res)=>{
-    Usercol.find({},(err,users)=>{
-        if(err){
+app.get("/users", (req, res) => {
+    Usercol.find({}, (err, users) => {
+        if (err) {
             console.error(err);
             res.status(500).send("Error retrieving users");
         }
-        else{
-            res.render("users", {users:users})
+        else {
+            res.render("users", { users: users })
         }
     })
-   
+
 })
 app.get("/books", (req, res) => {
     // Get the filter query parameter (if any)
     const filterType = req.query.filterType;
     const filterValue = req.query.filterValue;
-  
+
     // Find all the books in the database
     Bookcol.find({}, (err, books) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error retrieving books");
-      } else {
-        // Check the user's role
-        const isAdmin = req.session.user && req.session.user.role === "admin";
-  
-        // Filter the books by the selected filter type and value
-        let filteredBooks = books;
-        if (filterType && filterValue) {
-          if (filterType === "publisher") {
-            filteredBooks = filteredBooks.filter((book) => book.publisher === filterValue);
-          } else if (filterType === "author") {
-            filteredBooks = filteredBooks.filter((book) => book.author === filterValue);
-          }
+        if (err) {
+            console.error(err);
+            res.status(500).send("Error retrieving books");
+        } else {
+            // Check the user's role
+            const isAdmin = req.session.user && req.session.user.role === "admin";
+
+            // Filter the books by the selected filter type and value
+            let filteredBooks = books;
+            if (filterType && filterValue) {
+                if (filterType === "publisher") {
+                    filteredBooks = filteredBooks.filter((book) => book.publisher === filterValue);
+                } else if (filterType === "author") {
+                    filteredBooks = filteredBooks.filter((book) => book.author === filterValue);
+                }
+            }
+
+            // Render the books page and pass the books data, isAdmin flag, and filter values
+            if (req.session.user) {
+                res.render("Books", {
+                    books: filteredBooks,
+                    isAdmin: isAdmin,
+                    filterType: filterType,
+                    filterValue: filterValue,
+                });
+            }
+            else {
+                res.redirect('/login')
+            }
         }
-  
-        // Render the books page and pass the books data, isAdmin flag, and filter values
-        if(req.session.user){
-        res.render("Books", {
-          books: filteredBooks,
-          isAdmin: isAdmin,
-          filterType: filterType,
-          filterValue: filterValue,
-        });
-        }
-    else{
-        res.redirect('/login')
-    }}
     });
-  });
+});
 
 app.post("/login", async (req, res) => {
     try {
@@ -150,7 +151,7 @@ app.get("/update/:id", (req, res) => {
     });
 });
 
-app.post("/update",upload.single('image'), (req, res) => {
+app.post("/update", upload.single('image'), (req, res) => {
 
 
     let query = { _id: req.body.id }
@@ -191,43 +192,43 @@ app.get("/deleteu/:id", async (req, res) => {
 });
 app.post("/toadmin/:id", async (req, res) => {
     try {
-      let query = { _id: req.params.id };
-      await Usercol.updateOne(query, { $set: { role: "admin" } });
-      res.redirect("/users"); // or redirect to a success page
+        let query = { _id: req.params.id };
+        await Usercol.updateOne(query, { $set: { role: "admin" } });
+        res.redirect("/users"); // or redirect to a success page
     } catch (err) {
-      console.error(err);
-      res.redirect("/users"); // or redirect to an error page
+        console.error(err);
+        res.redirect("/users"); // or redirect to an error page
     }
-  });
+});
 app.post("/SignUp", async (req, res) => {
     const saltRounds = 10; // number of rounds used for the salt generation
     const plainPassword = req.body.password;
     const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-  
+
     const data = {
-      FirstName: req.body.FirstName,
-      LastName: req.body.LastName,
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
+        username: req.body.username,
+        email: req.body.email,
+        password: hashedPassword
     }
-  
+
     try {
-      await Usercol.insertMany([data]);
-      req.session.user = {
-        username: data.username,
-        role: 'user'
-      };
-      res.redirect("/books");
+        await Usercol.insertMany([data]);
+        req.session.user = {
+            username: data.username,
+            role: 'user'
+        };
+        res.redirect("/books");
     } catch (error) {
-      console.log(error);
-      req.flash('error', 'Error signing up');
-      return res.redirect('/signup');
+        console.log(error);
+        req.flash('error', 'Error signing up');
+        return res.redirect('/signup');
     }
-  });
+});
 app.get("/view/:id", (req, res) => {
     const id = req.params.id;
-    Bookcol.findOne({_id : id}, (err, book) => {
+    Bookcol.findOne({ _id: id }, (err, book) => {
         if (err) {
             console.error(err);
             res.status(500).send("Error retrieving books");
@@ -242,7 +243,7 @@ app.get("/view/:id", (req, res) => {
 app.get('/logout', (req, res) => {
     req.session.user = null;
     res.redirect('/login');
-  });
+});
 app.listen(3000, () => {
     console.log("port connected");
 })
