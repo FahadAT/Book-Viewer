@@ -2,13 +2,14 @@ const { render } = require("ejs");
 const express = require("express");
 const app = express()
 const path = require("path");
-const collection = require("./src/mongodb")
+const Usercol = require("./src/mongodb")
 const Bookcol = require("./src/mongobook")
 const multer  = require('multer')
 const session = require('express-session');
-const { check, validationResult } = require('express-validator/check')
-const upload = multer({ storage: storage })
+const bcrypt = require('bcrypt');
+const flash = require('connect-flash');
 
+app.use(flash());
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'images')
@@ -19,6 +20,7 @@ const storage = multer.diskStorage({
     }
   })
   
+const upload = multer({ storage: storage })
 app.use(session({
     secret: 'secret',
     resave: false,
@@ -33,7 +35,7 @@ app.set('views', path.join(__dirname, './views'))
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: false }))
 app.get("/login", (req, res) => {
-    res.render("login")
+    res.render('login', { messages: req.flash('error') });
 })
 app.get("/signup", (req, res) => {
     res.render("SignUp")
@@ -58,6 +60,18 @@ app.post("/add",upload.single('image'), async (req, res) => {
     await Bookcol.insertMany([binfo])
     console.log(req.file.filename)
     res.redirect('/books')
+})
+app.get("/users",(req,res)=>{
+    Usercol.find({},(err,users)=>{
+        if(err){
+            console.error(err);
+            res.status(500).send("Error retrieving users");
+        }
+        else{
+            res.render("users", {users:users})
+        }
+    })
+   
 })
 app.get("/books", (req, res) => {
     // Get the filter query parameter (if any)
@@ -97,25 +111,34 @@ app.get("/books", (req, res) => {
     }}
     });
   });
+
 app.post("/login", async (req, res) => {
     try {
-        const check = await collection.findOne({ username: req.body.username })
+        const user = await Usercol.findOne({ username: req.body.username });
 
-        if (check.password === req.body.password) {
+        if (!user) {
+            req.flash("error", "Invalid username or password");
+            return res.redirect("/login");
+        }
+
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+
+        if (passwordMatch) {
             req.session.user = {
-                username: check.username,
-                role: check.role
+                username: user.username,
+                role: user.role
             };
-            res.redirect('/books')
+            res.redirect('/books');
+        } else {
+            req.flash("error", "Invalid username or password");
+            return res.redirect("/login");
         }
-        else {
-            res.send("wrong Password")
-        }
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'Server error');
+        return res.redirect('/login');
     }
-    catch {
-        res.send("wrong details")
-    }
-})
+});
 app.get("/update/:id", (req, res) => {
 
 
@@ -153,21 +176,55 @@ app.get("/delete/:id", async (req, res) => {
         res.redirect("/books");
     } catch (err) {
         console.error(err);
-        res.send("Error: Unable to delete the mark");
+        res.send("Error: Unable to delete the book");
     }
 });
-app.post("/SignUp", async (req, res) => {
-    const data = {
-        FirstName: req.body.FirstName,
-        LastName: req.body.LastName,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
+app.get("/deleteu/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Usercol.deleteOne({ _id: id });
+        res.redirect("/users");
+    } catch (err) {
+        console.error(err);
+        res.send("Error: Unable to delete the book");
     }
-
-    await collection.insertMany([data])
-    res.redirect("/")
-})
+});
+app.post("/toadmin/:id", async (req, res) => {
+    try {
+      let query = { _id: req.params.id };
+      await Usercol.updateOne(query, { $set: { role: "admin" } });
+      res.redirect("/users"); // or redirect to a success page
+    } catch (err) {
+      console.error(err);
+      res.redirect("/users"); // or redirect to an error page
+    }
+  });
+app.post("/SignUp", async (req, res) => {
+    const saltRounds = 10; // number of rounds used for the salt generation
+    const plainPassword = req.body.password;
+    const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+  
+    const data = {
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    }
+  
+    try {
+      await Usercol.insertMany([data]);
+      req.session.user = {
+        username: data.username,
+        role: 'user'
+      };
+      res.redirect("/books");
+    } catch (error) {
+      console.log(error);
+      req.flash('error', 'Error signing up');
+      return res.redirect('/signup');
+    }
+  });
 app.get("/view/:id", (req, res) => {
     const id = req.params.id;
     Bookcol.findOne({_id : id}, (err, book) => {
@@ -182,6 +239,10 @@ app.get("/view/:id", (req, res) => {
         }
     });
 });
+app.get('/logout', (req, res) => {
+    req.session.user = null;
+    res.redirect('/login');
+  });
 app.listen(3000, () => {
     console.log("port connected");
 })

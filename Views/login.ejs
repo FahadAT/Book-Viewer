@@ -34,9 +34,10 @@
                 
             </div>
             <input type="submit" value="Login">
-
         </form>
-    
+        <% if (messages && messages.length > 0) { %>
+            <div class="alert alert-danger"><%= messages[0] %></div>
+        <% } %>
 </div>
 </header>
 </body>

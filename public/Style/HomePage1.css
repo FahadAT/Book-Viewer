@@ -265,3 +265,7 @@ footer p {
 i{
      color: #888;;
 }
+.alert-danger {
+justify-content: center;
+text-align: center;
+  }

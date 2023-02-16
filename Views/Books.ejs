@@ -14,6 +14,10 @@
             <li><a class="nav-btn" href="#">Books</a></li>
             <li><a class="nav-btn" href="/">About us</a></li>
             <li><a class="nav-btn" href="/">Contact us</a></li>
+            <% if (isAdmin) { %>
+              <li><a class="nav-btn" href="/users">Manage Users</a></li>
+            <% } %>
+            <li><a class="nav-btn" href="/logout">logout</a></li>
         </ul>
     </nav>
     </header>
@@ -36,6 +40,7 @@
           <h2><%= book.title %></h2>
           <p>Author: <%= book.author %></p>
           <p>Publisher: <%= book.publisher %></p>
+          <p>description: <%= book.description%></p>
           <p><a href="<%='/view/' + book.id %>" class="button2">view</a></p>
           <% if (isAdmin) { %>
             <p>Created By: <%= book.createdby%></p>
