@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Books</title>
     <link rel="stylesheet" href="/Style/log.css">
+    <link rel="stylesheet" href="/Style/HomePage1.css">
+    
 </head>
+
 <body>
-    <section class="login">
-    <form action="/add" method="post" enctype="multipart/form-data">
-        <input type="text" name="title" required title="title required" placeholder="title" data-icon="U">
-        <input type="text" name="author" required title="author required" placeholder="author" data-icon="U">
-        <input type="text" name="publisher" required title="publisher required" placeholder="publisher" data-icon="U">
-        <input type="text" name="description" required title="description required" placeholder="description" data-icon="U">
-        <input type="file" name="image" id="image"  placeholder="Image" data-icon="x">
-        <input type="submit" class="enivar" >
-    </form>
-</section>
+    <header class="Lhead">
+        <nav class="Home-nav">
+            <ul>
+                <li><a class="nav-btn" href="/">Homepage</a></li>
+                <li><a class="nav-btn" href="/books">Books</a></li>
+                <li><a class="nav-btn" href="/ #about-us">About us</a></li>
+                <li><a class="nav-btn" href="#">Contact us</a></li>
+            </ul>
+        </nav>
+
+        <div class="login">
+            <div class="titulo">Add books</div>
+                <form action="/add" method="post" enctype="multipart/form-data">
+                    <input type="text" name="title" required title="title required" placeholder="title" data-icon="U">
+                    <input type="text" name="author" required title="author required" placeholder="author"
+                        data-icon="U">
+                    <input type="text" name="publisher" required title="publisher required" placeholder="publisher"
+                        data-icon="U">
+                    <input type="text" name="description" required title="description required"
+                        placeholder="description" data-icon="U">
+                    <input type="file" name="image" id="image" placeholder="Image" data-icon="x">
+                    <input type="submit" class="enivar">
+                </form>
+            
+        </div>
+    </header>
 </body>
+
 </html>
